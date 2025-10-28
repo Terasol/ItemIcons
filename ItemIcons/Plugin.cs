@@ -112,12 +112,12 @@ public sealed class Plugin : IDalamudPlugin
 
     private unsafe void AddonSetupDetour(AddonEvent type, AddonArgs args)
     {
-        Renderer.SetupAddon((AtkUnitBase*)args.Addon);
+        Renderer.SetupAddon((AtkUnitBase*)args.Addon.Address);
     }
 
     private unsafe void AddonFinalizeDetour(AddonEvent type, AddonArgs args)
     {
-        Renderer.FinalizeAddon((AtkUnitBase*)args.Addon);
+        Renderer.FinalizeAddon((AtkUnitBase*)args.Addon.Address);
     }
 
     private unsafe bool UIModuleUpdateDetour(UIModule* module, float frameDelta)

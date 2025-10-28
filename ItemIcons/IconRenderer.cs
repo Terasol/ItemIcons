@@ -64,7 +64,7 @@ public sealed unsafe class IconRenderer : IDisposable
         var addon = Service.GameGui.GetAddonByName(provider.AddonName);
         if (addon == nint.Zero)
             return;
-        var addonPtr = (AtkUnitBase*)addon;
+        var addonPtr = (AtkUnitBase*)addon.Address;
         if (addonPtr->RootNode == null)
             return;
         if (!addonPtr->RootNode->IsVisible())

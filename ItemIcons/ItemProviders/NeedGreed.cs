@@ -1,7 +1,6 @@
-using Dalamud.Hooking;
-using Dalamud.Utility.Signatures;
+using Dalamud.Game.Addon.Lifecycle;
+using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ItemIcons.AtkIcons;
 using ItemIcons.Utils;
@@ -16,29 +15,19 @@ internal sealed unsafe class NeedGreed : BaseItemProvider
 
     public override string AddonName => "NeedGreed";
 
-    private delegate nint OnRequestedUpdateDelegate(AddonNeedGreed* @this, NumberArrayData** a2, StringArrayData** a3);
-
-    [Signature("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 20 48 8B 72 58 48 8B F9", DetourName = nameof(OnNeedGreedRequestedUpdate))]
-    private readonly Hook<OnRequestedUpdateDelegate> needGreedOnRequestedUpdateHook = null!;
-
     public NeedGreed()
     {
         Service.GameInteropProvider.InitializeFromAttributes(this);
-        needGreedOnRequestedUpdateHook.Enable();
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PostUpdate, AddonName, OnPostUpdate);
     }
 
     public override void Dispose()
     {
-        needGreedOnRequestedUpdateHook?.Dispose();
+        Service.AddonLifecycle.UnregisterListener(AddonEvent.PostUpdate, AddonName, OnPostUpdate);
     }
-
-    private nint OnNeedGreedRequestedUpdate(AddonNeedGreed* @this, NumberArrayData** a2, StringArrayData** a3)
+    public void OnPostUpdate(AddonEvent type, AddonArgs args)
     {
-        var result = needGreedOnRequestedUpdateHook!.Original(@this, a2, a3);
-
         Service.Plugin.Renderer?.InvalidateAddonCache(AddonName);
-
-        return result;
     }
 
     public override IEnumerable<AtkItemIcon> GetIcons(nint drawnAddon)

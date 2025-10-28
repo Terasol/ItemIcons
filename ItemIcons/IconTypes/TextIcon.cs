@@ -19,7 +19,7 @@ internal sealed record TextIcon : BaseIcon
     public Vector4 BackgroundColor { get; init; } = Vector4.Zero;
     public AlignmentType Alignment { get; init; } = AlignmentType.TopLeft;
     public TextFlags Flags { get; init; }
-    public TextFlags2 Flags2 { get; init; }
+    public FontType Flags2 { get; init; }
 
     private static ByteColor GetByteColor(Vector4 color)
     {
@@ -50,8 +50,8 @@ internal sealed record TextIcon : BaseIcon
             node->TextColor = GetByteColor(TextColor);
             node->EdgeColor = GetByteColor(EdgeColor);
             node->BackgroundColor = GetByteColor(BackgroundColor);
-            node->TextFlags = (byte)Flags;
-            node->TextFlags2 = (byte)Flags2;
+            node->TextFlags = Flags;
+            node->FontType = Flags2;
             node->ResizeNodeForCurrentText();
             return true;
         }

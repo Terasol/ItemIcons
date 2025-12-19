@@ -18,9 +18,9 @@ internal sealed class ItemLevel : IconProvider
             icons.Add(new TextIcon()
             {
                 Text = $"{i}",
-                FontSize = 16,
-                Alignment = AlignmentType.Center,
-                Offset = 9,
+                FontSize = 12,
+                Alignment = AlignmentType.TopLeft,
+                Offset = 3,
                 Flags = TextFlags.Glare | TextFlags.Edge,
                 FontType = FontType.TrumpGothic
             });

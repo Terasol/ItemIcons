@@ -16,7 +16,7 @@ internal sealed record TextureIcon : BaseIcon, IEquatable<TextureIcon>
     private nint PartPtr { get; }
     private nint PartsListPtr { get; }
 
-    private byte NodeFlags { get; }
+    private ImageNodeFlags NodeFlags { get; }
     private float NodeScale { get; init; }
 
     private unsafe AtkUldAsset* Asset => (AtkUldAsset*)AssetPtr;
@@ -90,7 +90,7 @@ internal sealed record TextureIcon : BaseIcon, IEquatable<TextureIcon>
                 Width = IconSize,
                 Height = IconSize,
             };
-            NodeFlags = (byte)ImageNodeFlags.AutoFit;
+            NodeFlags = ImageNodeFlags.AutoFit;
             NodeScale = Scale;
         }
 
